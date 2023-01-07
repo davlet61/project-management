@@ -1,0 +1,26 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Client {
+  email: String
+  id: Int!
+  name: String
+  phone: String
+}
+
+type Project {
+  clientId: Float
+  description: String
+  id: Int!
+  name: String
+  status: String
+}
+
+type Query {
+  client(id: Int!): Client!
+  clients: [Client!]!
+  project(id: Int!): Project!
+  projectByClient(clientId: Int!): Project!
+  projects: [Project!]!
+}
