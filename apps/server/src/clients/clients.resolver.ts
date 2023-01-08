@@ -10,16 +10,16 @@ import { Client } from './models/client.model';
 import { ClientsService } from './clients.service';
 import { Project } from 'src/projects/models/project.model';
 
-@Resolver((of) => Client)
+@Resolver(() => Client)
 export class ClientsResolver {
   constructor(private clientsService: ClientsService) {}
 
-  @Query((returns) => Client)
+  @Query(() => Client)
   async client(@Args('id', { type: () => Int }) id: number) {
     return this.clientsService.findUnique({ id });
   }
 
-  @Query((returns) => [Client])
+  @Query(() => [Client])
   async clients() {
     return this.clientsService.findMany({});
   }

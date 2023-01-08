@@ -2,30 +2,24 @@ import { Args, Query, Resolver, Int } from '@nestjs/graphql';
 import { Project } from './models/project.model';
 import { ProjectsService } from './projects.service';
 
-@Resolver((of) => Project)
+@Resolver(() => Project)
 export class ProjectsResolver {
-  constructor(private ProjectsService: ProjectsService) {}
+  constructor(private projectsService: ProjectsService) {}
 
-  @Query((returns) => Project)
+  @Query(() => Project)
   async project(@Args('id', { type: () => Int }) id: number) {
-    return this.ProjectsService.findUnique({ id });
+    return this.projectsService.findUnique({ id });
   }
 
-  @Query((returns) => Project)
+  @Query(() => Project)
   async projectByClient(
     @Args('clientId', { type: () => Int }) clientId: number,
   ) {
-    return this.ProjectsService.findUnique({ id: clientId });
+    return this.projectsService.findUnique({ id: clientId });
   }
 
-  @Query((returns) => [Project])
+  @Query(() => [Project])
   async projects() {
-    return this.ProjectsService.findMany({});
+    return this.projectsService.findMany({});
   }
-
-  // @ResolveField()
-  // async posts(@Parent() author: Author) {
-  //   const { id } = author;
-  //   return this.postsService.findAll({ authorId: id });
-  // }
 }

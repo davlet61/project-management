@@ -6,10 +6,6 @@ import { Project, Prisma } from '@prisma/client';
 export class ProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  // async create(data: NewRecipeInput): Promise<Project> {
-  //   return {} as any;
-  // }
-
   async findUnique(
     projectWhereUniqueInput: Prisma.ProjectWhereUniqueInput,
   ): Promise<Project | null> {

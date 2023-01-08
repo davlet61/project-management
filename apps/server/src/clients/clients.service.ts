@@ -7,10 +7,6 @@ import { Client } from './models/client.model';
 export class ClientsService {
   constructor(private prisma: PrismaService) {}
 
-  // async create(data: NewRecipeInput): Promise<Client> {
-  //   return {} as any;
-  // }
-
   async findUnique(
     ClientWhereUniqueInput: Prisma.ClientWhereUniqueInput,
   ): Promise<Client | null> {
