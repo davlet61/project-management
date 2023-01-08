@@ -1,33 +1,53 @@
 import { Injectable } from '@nestjs/common';
-import { Project } from './models/project.model';
-import { projects } from 'data';
+import { PrismaService } from 'src/prisma.service';
+import { Project, Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProjectsService {
-  /**
-   * MOCK
-   * Put some real business logic here
-   * Left for demonstration purposes
-   */
+  constructor(private prisma: PrismaService) {}
 
   // async create(data: NewRecipeInput): Promise<Project> {
   //   return {} as any;
   // }
 
-  async findOneById(id: number): Promise<Project> {
-    return projects.find((project) => id === project.id);
+  async findUnique(
+    projectWhereUniqueInput: Prisma.ProjectWhereUniqueInput,
+  ): Promise<Project | null> {
+    return this.prisma.project.findUnique({
+      where: projectWhereUniqueInput,
+    });
   }
 
-  async findOneByClientId(clientId: number): Promise<Project> {
-    return projects.find((project) => clientId === project.clientId);
+  async findByClientId(clientId: Prisma.IntFilter): Promise<Project | null> {
+    return this.prisma.project.findFirst({
+      where: {
+        clientId,
+      },
+    });
   }
 
-  async findAll(): Promise<Project[]> {
-    return projects as Project[];
+  async findMany(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.ProjectWhereUniqueInput;
+    where?: Prisma.ProjectWhereInput;
+    orderBy?: Prisma.ProjectOrderByWithRelationInput;
+  }): Promise<Project[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.project.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
   }
 
-  async remove(id: number): Promise<boolean> {
-    projects.filter((project) => id !== project.id);
-    return true;
+  async delete(
+    projectWhereUniqueInput: Prisma.ProjectWhereUniqueInput,
+  ): Promise<Project | null> {
+    return this.prisma.project.delete({
+      where: projectWhereUniqueInput,
+    });
   }
 }

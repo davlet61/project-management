@@ -1,13 +1,14 @@
 import {
   Args,
-  Mutation,
   Query,
   Resolver,
-  ResolveField,
   Int,
+  Parent,
+  ResolveField,
 } from '@nestjs/graphql';
 import { Client } from './models/client.model';
 import { ClientsService } from './clients.service';
+import { Project } from 'src/projects/models/project.model';
 
 @Resolver((of) => Client)
 export class ClientsResolver {
@@ -15,17 +16,17 @@ export class ClientsResolver {
 
   @Query((returns) => Client)
   async client(@Args('id', { type: () => Int }) id: number) {
-    return this.clientsService.findOneById(id);
+    return this.clientsService.findUnique({ id });
   }
 
   @Query((returns) => [Client])
   async clients() {
-    return this.clientsService.findAll();
+    return this.clientsService.findMany({});
   }
 
-  // @ResolveField()
-  // async posts(@Parent() author: Author) {
-  //   const { id } = author;
-  //   return this.postsService.findAll({ authorId: id });
-  // }
+  @ResolveField(() => [Project])
+  async projects(@Parent() client: Client) {
+    const { id } = client;
+    return this.clientsService.findProjects({ clientId: id });
+  }
 }

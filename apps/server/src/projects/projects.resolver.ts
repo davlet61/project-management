@@ -8,19 +8,19 @@ export class ProjectsResolver {
 
   @Query((returns) => Project)
   async project(@Args('id', { type: () => Int }) id: number) {
-    return this.ProjectsService.findOneById(id);
+    return this.ProjectsService.findUnique({ id });
   }
 
   @Query((returns) => Project)
   async projectByClient(
     @Args('clientId', { type: () => Int }) clientId: number,
   ) {
-    return this.ProjectsService.findOneByClientId(clientId);
+    return this.ProjectsService.findUnique({ id: clientId });
   }
 
   @Query((returns) => [Project])
   async projects() {
-    return this.ProjectsService.findAll();
+    return this.ProjectsService.findMany({});
   }
 
   // @ResolveField()
